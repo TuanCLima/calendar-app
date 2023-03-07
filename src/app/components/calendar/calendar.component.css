@@ -1,5 +1,5 @@
 .container {
-  outline: 1px solid black;
+  outline: 1px solid var(--primary-color);
   min-height: 30rem;
   display: flex;
   padding: 3rem;
@@ -9,12 +9,7 @@
   margin-top: 1rem;
 }
 
-.left-panel {
-  /* flex-grow: 2; */
-  /* outline: 1px solid black; */
-}
-
 .right-panel {
-  outline: 1px solid black;
+  outline: 1px solid var(--primary-color);
   flex-grow: 1;
 }

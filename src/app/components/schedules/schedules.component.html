@@ -1,9 +1,9 @@
 <div class="container">
-  <ul cdkDropList class="schedule-overlay" (cdkDropListDropped)="drop($event)">
+  <ul cdkDropList class="schedule-overlay" (cdkDropListDropped)="onDrop($event)">
     <li
       class="schedule-item"
       [ngStyle]="{
-        'background-color': schedule.isUserSet ? 'aquamarine' : 'white',
+        'background-color': schedule.isUserSet ? 'var(--accent-color)' : 'var(--blank-color)',
         height: schedule.slotSize * 1.5 + 'rem'
       }"
       cdkDrag
@@ -19,7 +19,7 @@
       <div
         *ngIf="schedule.isUserSet"
         class="delete-button"
-        (click)="onClick(index)"
+        (click)="onDelete(index)"
       >
         <fa-icon [icon]="faTrash"></fa-icon>
       </div>

@@ -10,7 +10,7 @@
   width: 100%;
   height: 6rem;
   display: flex;
-  align-items: center ;
+  align-items: center;
 }
 
 .schedule-overlay {
@@ -26,20 +26,22 @@
 }
 
 .background-list li {
-  background-color: #666;
+  background-color: var(--primary-color);
   margin: 2px;
-  color: white;
+  color: var(--blank-color);
   border-radius: 3px;
   padding-left: 5px;
-
 }
 
 .cdk-drag-preview {
-  background-color: green;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 3px;
 }
 
 .cdk-drag-placeholder {
@@ -53,8 +55,9 @@
 .container .schedule-item {
   display: flex;
   justify-content: space-between;
-  border: 4px solid white;
+  border: 4px solid var(--blank-color);
   margin: 0.5px 0;
+  padding-left: 3px;
 }
 
 .delete-button {
@@ -66,5 +69,5 @@
 }
 
 fa-icon {
-  color: #666;
+  color: var(--primary-color);
 }

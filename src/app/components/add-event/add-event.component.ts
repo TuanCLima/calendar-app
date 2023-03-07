@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ScheduleItem } from '../../models/ScheduleItem';
 import { Period, TimeInfo } from '../../models/TimeInfo';
 import { ScheduleService } from '../../services/schedule.service';
+import { NUMBER_OF_SLOTS } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-add-event',
@@ -21,7 +22,7 @@ export class AddEventComponent {
   })
 
   constructor(private fb: FormBuilder, private scheduleService: ScheduleService) {
-    this.timeValues= Array(4 * 24).fill(0).map((_, index) => {
+    this.timeValues= Array(NUMBER_OF_SLOTS).fill(0).map((_, index) => {
       const period = index > 47 ? Period.PM : Period.AM;
       const hours = Math.floor(index / 4);
       const minutes = index % 4 * 15;
@@ -62,16 +63,11 @@ export class AddEventComponent {
   }
 
   validateInput(): boolean {
-    const { title, startDate, startTimeIndex, duration } = this.eventForm.value;
+    const { title } = this.eventForm.value;
 
     const _title = title?.trim();
     if (!_title || _title.length === 0) {
       this.errorMessage = 'The title is missing.'
-      return false;
-    }
-
-    if (!startDate) {
-      this.errorMessage = 'You need to set a date for the event.'
       return false;
     }
 
@@ -80,5 +76,9 @@ export class AddEventComponent {
 
   onChange() {
     this.errorMessage = '';
+  }
+
+  pad(num: number): string {
+    return (num + "").padStart(2, "0")
   }
 }

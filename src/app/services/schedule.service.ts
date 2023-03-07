@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ScheduleItem } from '../models/ScheduleItem';
+import { NUMBER_OF_SLOTS, _15_MINUTES } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,14 @@ export class ScheduleService {
   contextDate: Date = new Date();
 
   constructor() {
-    console.log('### ScheduleService constructor');
     this.loadItems()
   }
 
   loadItems() {
-    this.scheduleItems = Array(24 * 4).fill(0).map((_, index) => {
+    this.scheduleItems = Array(NUMBER_OF_SLOTS).fill(0).map((_, index) => {
       let isUserSet = false;
 
+      /* TODO */
       if (index === 7) {
         isUserSet = true;
       }
@@ -35,6 +36,7 @@ export class ScheduleService {
       } as ScheduleItem;
     });
     
+    /* TODO */
     this.scheduleItems.splice(4, 1)
     this.scheduleItems[3].endDate?.setHours(1, 15, 0)
     this.scheduleItems[3].isUserSet = true;
@@ -43,7 +45,6 @@ export class ScheduleService {
 
   setContextDate(dateString: string) {
     const scheduleItems = this.map.get(dateString);
-    console.log('###', dateString, scheduleItems);
     if (scheduleItems) {
       this.scheduleItems = scheduleItems
     } else {
@@ -53,7 +54,6 @@ export class ScheduleService {
   }
 
   addScheduleItem(scheduleItem: ScheduleItem): boolean {
-    console.log('###', this.scheduleItems);
     let startIndex;
     for (let i = 0; i < this.scheduleItems.length; i++) {
       if (
@@ -64,7 +64,6 @@ export class ScheduleService {
 
         for (let j = i; j < i + scheduleItem.slotSize; j++) {
           if (this.scheduleItems[j].isUserSet) {
-
             return false;
           }
         }
@@ -94,14 +93,14 @@ export class ScheduleService {
 
     if (previousSlotSize > 1) {
       const stubSlots = Array(previousSlotSize - 1).fill(0).map((_, idx) => {
-        const startDate = new Date(item.startDate.getTime() + 15 * 1000 * 60 * (idx + 1));
+        const startDate = new Date(item.startDate.getTime() + _15_MINUTES + (idx + 1));
         return {
           title: '',
           description: '',
           isUserSet: false,
           slotSize: 1,
           startDate,
-          endDate: new Date(startDate.getTime() + 15 * 1000 * 60),
+          endDate: new Date(startDate.getTime() + _15_MINUTES),
         } as ScheduleItem;
       });
 
