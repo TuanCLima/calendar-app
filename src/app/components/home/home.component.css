@@ -1,0 +1,19 @@
+main {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 55rem;
+  border: 1px solid black;
+  height: 40rem;
+  margin-top: 1rem;
+  text-align: center;
+  padding-top: 15rem;
+}
+
+.container a {
+  text-decoration: none;
+  font-size: 7rem;
+  color: #666;
+}

@@ -1,0 +1,41 @@
+.container {
+  width: 22rem;
+  border: 1px solid black;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.container label {
+  display: inline-block;
+  width: 5.5rem;
+  height: 2rem;
+}
+
+.error {
+  color: red;
+  max-width: 20rem;
+  height: 1.5rem;
+}
+
+br {
+  height: 1rem;
+  display: flex;
+}
+
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button[type='submit'] {
+  border: none;
+  background-color: #666;
+  color: white;
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+
+#duration, #startTime {
+  width: 5.3rem;
+}

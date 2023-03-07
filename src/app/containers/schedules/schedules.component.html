@@ -1,0 +1,34 @@
+<div class="container">
+  <ul cdkDropList class="schedule-overlay" (cdkDropListDropped)="drop($event)">
+    <li
+      class="schedule-item"
+      [ngStyle]="{
+        'background-color': schedule.isUserSet ? 'aquamarine' : 'white',
+        height: schedule.slotSize * 1.5 + 'rem'
+      }"
+      cdkDrag
+      *ngFor="let schedule of scheduleItems; let index = index"
+    >
+      <div class="item-info">
+        {{ getFormattedTime(schedule.startDate) }} -
+        {{ getFormattedTime(schedule.endDate) }}
+        <span *ngIf="schedule.title?.length"
+          >| {{ schedule.title.substring(0, 25) }}</span
+        >
+      </div>
+      <div
+        *ngIf="schedule.isUserSet"
+        class="delete-button"
+        (click)="onClick(index)"
+      >
+        <fa-icon [icon]="faTrash"></fa-icon>
+      </div>
+    </li>
+  </ul>
+  <ul class="background-list">
+    <li *ngFor="let hour of hours; let index = index">{{ index }} AM</li>
+    <li *ngFor="let hour of hours; let index = index">
+      {{ index === 0 ? "12" : index }} {{ index === 0 ? "AM" : "PM" }}
+    </li>
+  </ul>
+</div>
