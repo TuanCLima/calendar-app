@@ -38,19 +38,7 @@ export class SchedulesComponent {
       }
     }
 
-    destination.isUserSet = origin.isUserSet;
-    destination.title = origin.title;
-    destination.description = origin.description;
-    destination.slotSize = origin.slotSize;
-    destination.endDate = new Date(
-      destination.startDate.getTime() + _15_MINUTES * origin.slotSize
-    );
-    if (destination.slotSize > 1) {
-      this.scheduleItems.splice(
-        event.currentIndex + 1,
-        destination.slotSize - 1
-      );
-    }
+    this.mutateDestinationFromOrigin(destination, origin, event);
 
     origin.isUserSet = false;
     origin.title = '';
@@ -82,6 +70,22 @@ export class SchedulesComponent {
       }
     }
   }
+
+  mutateDestinationFromOrigin(destination: ScheduleItem, origin: ScheduleItem, event: CdkDragDrop<ScheduleItem[]>) {
+    destination.isUserSet = origin.isUserSet;
+    destination.title = origin.title;
+    destination.description = origin.description;
+    destination.slotSize = origin.slotSize;
+    destination.endDate = new Date(
+      destination.startDate.getTime() + _15_MINUTES * origin.slotSize
+    );
+    if (destination.slotSize > 1) {
+      this.scheduleItems.splice(
+        event.currentIndex + 1,
+        destination.slotSize - 1
+      );
+    }
+  } 
 
   onDelete(number: number) {
     this.schedule.deleteItem(number);
