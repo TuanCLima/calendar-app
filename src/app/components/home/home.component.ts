@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { toDashedDateStr } from 'src/app/utilities/utilities';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  calendarRoute = '/calendar/' + new Date().toLocaleDateString('en-US').replace(/\//g, '-');
+  calendarRoute = '/calendar/' + toDashedDateStr(new Date());
 }

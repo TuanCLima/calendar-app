@@ -16,7 +16,9 @@ export class SchedulesComponent {
   scheduleItems = this.schedule.scheduleItems;
 
   constructor(private schedule: ScheduleService) {
-    this.scheduleItems = this.schedule.scheduleItems;
+    this.schedule.dayTracker.subscribe(() => {
+      this.scheduleItems = this.schedule.scheduleItems;
+    })
   }
 
   onDrop(event: CdkDragDrop<ScheduleItem[]>) {

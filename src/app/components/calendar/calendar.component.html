@@ -1,10 +1,12 @@
-<main>
-  <!-- TODO -->
-  <!-- <div class="calendar-navigator">
-    <a routerLink="/calendar/01-01-2001">Go to Previous Date</a>
-    <a routerLink="/calendar/01-02-2001">Go to Next Date</a>
-  </div> -->
-  <div class="container">
+<main class="main-container">
+  <div class="calendar-navigator">
+    <div>
+      <a [routerLink]="'/calendar/' + loadNextDay(false)">Load Previous Day</a>
+      <a [routerLink]="'/calendar/' + loadNextDay(true)">Load Next Day</a>
+    </div>
+    <h3>{{ getWithWeekDayFormat() }}</h3>
+  </div>
+  <div class="calendar-container">
     <div class="left-panel">
       <app-add-event></app-add-event>
     </div>

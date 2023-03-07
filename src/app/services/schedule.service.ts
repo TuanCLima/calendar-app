@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { ScheduleItem } from '../models/ScheduleItem';
 import { NUMBER_OF_SLOTS, _15_MINUTES } from '../constants/constants';
+import { toDashedDateStr } from '../utilities/utilities';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
   scheduleItems: ScheduleItem[] = [];
-  map: Map<string, ScheduleItem[]> = new Map();
+  private map: Map<string, ScheduleItem[]> = new Map();
   contextDate: Date = new Date();
+  dayTracker = new EventEmitter();
 
   constructor() {
     this.loadItems()
@@ -35,6 +37,8 @@ export class ScheduleService {
         slotSize: 1,
       } as ScheduleItem;
     });
+
+    this.dayTracker.emit();
     
     /* TODO */
     this.scheduleItems.splice(4, 1)
@@ -47,6 +51,7 @@ export class ScheduleService {
     const scheduleItems = this.map.get(dateString);
     if (scheduleItems) {
       this.scheduleItems = scheduleItems
+      this.dayTracker.emit();
     } else {
       this.loadItems();
       this.map.set(dateString, this.scheduleItems);
@@ -54,16 +59,24 @@ export class ScheduleService {
   }
 
   addScheduleItem(scheduleItem: ScheduleItem): boolean {
+    let scheduleItems = this.map.get(toDashedDateStr(scheduleItem.startDate))
+
+    if (!scheduleItems) {
+      this.loadItems();
+      this.map.set(toDashedDateStr(scheduleItem.startDate), this.scheduleItems);
+      scheduleItems = this.scheduleItems;
+    }
+  
     let startIndex;
-    for (let i = 0; i < this.scheduleItems.length; i++) {
+    for (let i = 0; i < scheduleItems!.length; i++) {
       if (
-        this.scheduleItems[i].startDate.getHours() >= scheduleItem.startDate.getHours() &&
-        this.scheduleItems[i].startDate.getMinutes() >= scheduleItem.startDate.getMinutes()
+        scheduleItems[i].startDate.getHours() >= scheduleItem.startDate.getHours() &&
+        scheduleItems[i].startDate.getMinutes() >= scheduleItem.startDate.getMinutes()
       ) {
         startIndex = i;
 
         for (let j = i; j < i + scheduleItem.slotSize; j++) {
-          if (this.scheduleItems[j].isUserSet) {
+          if (scheduleItems[j].isUserSet) {
             return false;
           }
         }
@@ -72,10 +85,12 @@ export class ScheduleService {
     }
 
     if (startIndex !== undefined) {
-      this.scheduleItems[startIndex] = scheduleItem;
+      scheduleItems[startIndex] = scheduleItem;
       if (scheduleItem.slotSize > 1) {
-        this.scheduleItems.splice(startIndex + 1, scheduleItem.slotSize - 1)
+        scheduleItems.splice(startIndex + 1, scheduleItem.slotSize - 1)
       }
+
+      this.dayTracker.emit();
       return true;
     }
 
