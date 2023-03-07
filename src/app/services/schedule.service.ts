@@ -11,6 +11,7 @@ export class ScheduleService {
   private map: Map<string, ScheduleItem[]> = new Map();
   contextDate: Date = new Date();
   dayTracker = new EventEmitter();
+  scheduleItemEmitter = new EventEmitter<ScheduleItem | undefined>();
 
   constructor() {
     this.loadItems()
@@ -121,5 +122,14 @@ export class ScheduleService {
 
       this.scheduleItems.splice(index + 1, 0, ...stubSlots);
     }
+  }
+
+  emitScheduleItem(scheduleItem?: ScheduleItem) {
+    if (!scheduleItem) {
+      this.scheduleItemEmitter.emit(scheduleItem);
+      return;  
+    }
+
+    this.scheduleItemEmitter.emit(scheduleItem);
   }
 }

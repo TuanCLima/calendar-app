@@ -8,6 +8,7 @@
       }"
       cdkDrag
       *ngFor="let schedule of scheduleItems; let index = index"
+      (click)="onClick(schedule)"
     >
       <div class="item-info">
         {{ getFormattedTime(schedule.startDate) }} -

@@ -23,12 +23,13 @@ export class AddEventComponent {
     duration: [1, Validators.required],
   });
   currentDate = new Date();
+  scheduleItem?: ScheduleItem;
 
   constructor(
     private fb: FormBuilder,
     private scheduleService: ScheduleService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {
     this.timeValues = Array(NUMBER_OF_SLOTS)
       .fill(0)
@@ -40,16 +41,23 @@ export class AddEventComponent {
         return { hours, minutes, period };
       });
 
-      route.params.subscribe((params) => {
-        this.currentDate = new Date(params['date']);
-        this.eventForm.setValue({
-          ...this.eventForm.value,
-          title: this.eventForm.value.title || '',
-          description: this.eventForm.value.description || '',
-          startTimeIndex: this.eventForm.value.startTimeIndex || 0,
-          duration: this.eventForm.value.duration || 0,
-          startDate: this.currentDate });
-      })
+    route.params.subscribe((params) => {
+      this.currentDate = new Date(params['date']);
+      this.eventForm.setValue({
+        ...this.eventForm.value,
+        title: this.eventForm.value.title || '',
+        description: this.eventForm.value.description || '',
+        startTimeIndex: this.eventForm.value.startTimeIndex || 0,
+        duration: this.eventForm.value.duration || 0,
+        startDate: this.currentDate,
+      });
+
+      this.scheduleItem = undefined;
+    });
+
+    this.scheduleService.scheduleItemEmitter.subscribe((scheduleItem) => {
+      this.scheduleItem = scheduleItem;
+    });
   }
 
   onSubmit() {
@@ -81,14 +89,12 @@ export class AddEventComponent {
       this.errorMessage =
         "There's an event already scheduled at this time. \n Delete something or book at another time";
     } else {
-      const dashedCurrentDate = toDashedDateStr(this.currentDate)
+      const dashedCurrentDate = toDashedDateStr(this.currentDate);
       const dashedStartDate = toDashedDateStr(scheduleItem.startDate);
       if (dashedStartDate !== dashedCurrentDate) {
-        this.router.navigate(['calendar/', dashedStartDate])
+        this.router.navigate(['calendar/', dashedStartDate]);
       }
     }
-
-
   }
 
   validateInput(): boolean {
@@ -109,5 +115,19 @@ export class AddEventComponent {
 
   pad(num: number): string {
     return (num + '').padStart(2, '0');
+  }
+
+  startsAt(date?: Date): string {
+    if (!date) {
+      return '';
+    }
+
+    const localeDate = date.toLocaleTimeString('en-US');
+    return (
+      date.getHours() +
+      ':' +
+      date.getMinutes() +
+      localeDate.substring(localeDate.length, localeDate.length - 3)
+    );
   }
 }

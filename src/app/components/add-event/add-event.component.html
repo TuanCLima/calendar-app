@@ -1,60 +1,73 @@
 <div class="container">
-  <h3>Add event</h3>
-  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" (change)="onChange()">
-    <label for="title">Title: </label>
-    <input id="title" type="text" formControlName="title" />
-    <br />
-    <label for="title">Description: </label>
-    <input id="title" type="text" formControlName="description" />
-    <br />
-    <label for="startTime">Start Time: </label>
-    <select id="startTime" formControlName="startTimeIndex">
-      <option
-        *ngFor="let timeInfo of timeValues; let index = index"
-        [value]="index"
-      >
-        {{
-          pad(timeInfo.hours) + ":" +
-          pad(timeInfo.minutes) + " " +
-          timeInfo.period.toUpperCase()
-        }}
-      </option>
-    </select>
-    <br />
-
-    <label for="duration">Duration: </label>
-    <select id="duration" formControlName="duration">
-      <option
-        *ngFor="
-          let timeInfo of timeValues?.slice(
-            0,
-            (timeValues?.length || 0) / 2 + 1
-          );
-          let index = index
-        "
-        [value]="index"
-      >
-        {{ pad(timeInfo.hours) + "H" + pad(timeInfo.minutes) + "M" }}
-      </option>
-    </select>
-    <br />
-    <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="startDatePicker"
-        formControlName="startDate"
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="startDatePicker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #startDatePicker></mat-datepicker>
-    </mat-form-field>
-    <br />
-    <div class="button-wrapper">
-      <button type="submit" [disabled]="!eventForm.value">Add Event</button>
+  <div class="form-info">
+    <h3>Add event</h3>
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" (change)="onChange()">
+      <label for="title">Title: </label>
+      <input id="title" type="text" formControlName="title" />
+      <br />
+      <label for="title">Description: </label>
+      <input id="title" type="text" formControlName="description" />
+      <br />
+      <label for="startTime">Start Time: </label>
+      <select id="startTime" formControlName="startTimeIndex">
+        <option
+          *ngFor="let timeInfo of timeValues; let index = index"
+          [value]="index"
+        >
+          {{
+            pad(timeInfo.hours) + ":" +
+            pad(timeInfo.minutes) + " " +
+            timeInfo.period.toUpperCase()
+          }}
+        </option>
+      </select>
+      <br />
+  
+      <label for="duration">Duration: </label>
+      <select id="duration" formControlName="duration">
+        <option
+          *ngFor="
+            let timeInfo of timeValues?.slice(
+              0,
+              (timeValues?.length || 0) / 2 + 1
+            );
+            let index = index
+          "
+          [value]="index"
+        >
+          {{ pad(timeInfo.hours) + "H" + pad(timeInfo.minutes) + "M" }}
+        </option>
+      </select>
+      <br />
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="startDatePicker"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="startDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+      <br />
+      <div class="button-wrapper">
+        <button type="submit" [disabled]="!eventForm.value">Add Event</button>
+      </div>
+      <p class="error">{{ errorMessage }}</p>
+    </form>
+  </div>
+  <div *ngIf="scheduleItem" class="event-detail">
+    <div class="text">
+      <h4 class="title">Title: {{ scheduleItem.title }}</h4>
+      <h5 class="description"> {{ scheduleItem.description }} </h5>
     </div>
-    <p class="error">{{ errorMessage }}</p>
-  </form>
+    <div class="date">
+      <div class="starts"><span>Starts At:</span> {{ startsAt(scheduleItem.startDate) }}</div>
+      <div class="end"><span>Ends At:</span> {{ startsAt(scheduleItem.endDate) }}</div>
+    </div>
+  </div>
 </div>
+

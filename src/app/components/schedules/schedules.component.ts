@@ -81,6 +81,7 @@ export class SchedulesComponent {
 
   onDelete(number: number) {
     this.schedule.deleteItem(number);
+    this.schedule.emitScheduleItem();
   }
 
   getFormattedTime(date?: Date): string {
@@ -96,5 +97,13 @@ export class SchedulesComponent {
     }
 
     return (hour + '').padStart(2, '0') + ':' + (minutes + '').padStart(2, '0');
+  }
+
+  onClick(scheduleItem: ScheduleItem) {
+    if (!scheduleItem.isUserSet) {
+      return;
+    }
+
+    this.schedule.emitScheduleItem(scheduleItem);
   }
 }

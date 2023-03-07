@@ -1,11 +1,19 @@
 .container {
   width: 22rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-info {
+  width: 22rem;
   border: 1px solid var(--primary-color);
   padding: 1rem;
   border-radius: 5px;
 }
 
-.container label {
+.form-info label {
   display: inline-block;
   width: 5.5rem;
   height: 2rem;
@@ -38,4 +46,38 @@ button[type='submit'] {
 
 #duration, #startTime {
   width: 5.3rem;
+}
+
+.event-detail {
+  border: 1px solid var(--primary-color);
+  height: 100%;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  margin-top: 1rem;
+}
+
+.date span {
+  display: inline-block;
+  width: 4rem;
+}
+
+.event-detail .description {
+  border: 1px solid var(--primary-color);
+  height: 6rem;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 0;
+  background-color: #60606011;
 }
