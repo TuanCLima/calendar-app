@@ -39,6 +39,8 @@ export class SchedulesComponent {
     }
 
     destination.isUserSet = origin.isUserSet;
+    destination.title = origin.title;
+    destination.description = origin.description;
     destination.slotSize = origin.slotSize;
     destination.endDate = new Date(
       destination.startDate.getTime() + _15_MINUTES * origin.slotSize
@@ -51,6 +53,8 @@ export class SchedulesComponent {
     }
 
     origin.isUserSet = false;
+    origin.title = '';
+    origin.description = '';
 
     if (origin.slotSize === 1) {
       origin.endDate = new Date(origin.startDate.getTime() + _15_MINUTES);

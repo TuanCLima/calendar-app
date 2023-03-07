@@ -41,7 +41,7 @@ export class AddEventComponent {
         return { hours, minutes, period };
       });
 
-    route.params.subscribe((params) => {
+    this.route.params.subscribe((params) => {
       this.currentDate = new Date(params['date']);
       this.eventForm.setValue({
         ...this.eventForm.value,
@@ -124,9 +124,9 @@ export class AddEventComponent {
 
     const localeDate = date.toLocaleTimeString('en-US');
     return (
-      date.getHours() +
+      this.pad(date.getHours()) +
       ':' +
-      date.getMinutes() +
+      this.pad(date.getMinutes()) +
       localeDate.substring(localeDate.length, localeDate.length - 3)
     );
   }

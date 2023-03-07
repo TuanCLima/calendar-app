@@ -21,11 +21,6 @@ export class ScheduleService {
     this.scheduleItems = Array(NUMBER_OF_SLOTS).fill(0).map((_, index) => {
       let isUserSet = false;
 
-      /* TODO */
-      if (index === 7) {
-        isUserSet = true;
-      }
-
       const date = new Date();
       date.setHours(Math.floor(index / 4), (index % 4) * 15, 0)
       const startDate = structuredClone(date);
@@ -40,12 +35,6 @@ export class ScheduleService {
     });
 
     this.dayTracker.emit();
-    
-    /* TODO */
-    this.scheduleItems.splice(4, 1)
-    this.scheduleItems[3].endDate?.setHours(1, 15, 0)
-    this.scheduleItems[3].isUserSet = true;
-    this.scheduleItems[3].slotSize = 2;
   }
 
   setContextDate(dateString: string) {
